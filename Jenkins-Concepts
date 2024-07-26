@@ -1,1 +1,35 @@
+CI = build + tests + security checks
+CD = Continuous Delivery/Deployment 
+Continuous Delivery = CI > manual button push > deployment
+Continuous Deployment = CI > deployment (automatically, without any button push)
 
+Why Jenkins:-
+open source, 1000+ plugins, free, paid (enterprise)
+
+Install Jenkins:
+Prerequisite to install Jenkins -> Java (JDK package) and then install Jenkins
+Start Jenkins: sudo systemctl start jenkins   (it will start the jenkins service). Note: we can run "sudo systemctl enable jenkins" for jenkins service to start at boot
+validate: systemctl status jenkins
+open the firewall to allow jenkins to be opened from the UI: sudo ufw allow 8080
+copy the public ip of the instance where jenkins is installed and open up the browser of your system and in the url type x.x.x.x:8080 it should open jenkins UI
+If its not opening then go to for eg Azure > networking > Inbound security rule (source any, destination port 8080) add it
+When the jenkins UI opens it asks for Unlock jenkins. sudo cat /var/lib/jenkins/secrets/initialAdminPassword 
+Customize jenkins -> click on Install suggested plugins
+It will then land you to page "Create first admin user" . Create it
+It will then take you to "Instance Configuration" page. Provide the jenkins URL eg http://40.121.40.56:8080/. Start using jenkins.
+
+Jenkins CLI:
+Go to your user icon (eg mike) in Jenkins > Configure > ssh public keys (cd /Users/abhineet/.ssh   cat id_rsa.pub from my laptop and add those keys there)
+On home page > Manage Jenkins > Jenkins CLI. Go to your laptop terminal and install jenkins cli jar using wget.
+Go to user eg mike > configure > API Token > Add token
+Go to your terminal and authenticate to Jenkins. java -jar jenkins-cli.jar -s http://x.x.x.x:8080/ -auth mike:sgjagsjgsgsggsg [mike is username and sgjagsjgsgsggsg is api token)
+Now we can use CLI to list-jobs etc, build test2 (test2 is name of job) etc
+
+Plugins:
+Manage Jenkins > Manage Plugins > Updates, Available, Installed, Advanced
+Go to "Available" > For eg search for azure credentials plugin > Under documentation of plugin you can see "Sample pipeline code" to use in Jenkins file. When you select the plugin to install it will show you two options:-
+"Install without restart" and "Download now and install after restart". After installation validate in "Installed" section.
+
+Restarting Jenkins for plugins that needs a restart:
+sudo systemctl restart jenkins
+systemctl status jenkins
